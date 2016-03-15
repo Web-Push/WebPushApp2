@@ -257,7 +257,7 @@ function writeToLocal(filename, content) {
                 fileWriter.onwriteend = function(e) {
                     //alert("Success! : " + fileEntry.fullPath);
                     console.log('fileEntry.fullPath:' + fileEntry.fullPath);
-                    navigator.serviceWorker.register('./service-worker.js').then(initialiseState);
+                    //navigator.serviceWorker.register('./service-worker.js').then(initialiseState);
                 };
 
                 fileWriter.onerror = function(e) {
