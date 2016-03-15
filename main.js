@@ -237,7 +237,7 @@ function getServiceWokerJS() {
         a.style.display = 'none';
         document.body.appendChild(a);
         a.click();
-        delete a;
+        //delete a;
       } else {
         console.log('xmlhttp.status:' + xmlhttp.status);
       } 
