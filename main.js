@@ -232,7 +232,7 @@ function getServiceWokerJS() {
         console.log('xmlhttp.status == 200');
         //writeToLocal("service-worker.js", xmlhttp.responseText);
         var a = document.createElement('a');
-        a.href = window.URL.createObjectURL(xhr.response); // xhr.response is a blob
+        a.href = window.URL.createObjectURL(xmlhttp.response); // xhr.response is a blob
         a.download = filename; // Set the file name.
         a.style.display = 'none';
         document.body.appendChild(a);
