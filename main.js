@@ -213,9 +213,62 @@ window.addEventListener('load', function() {
   // Check that service workers are supported, if so, progressively
   // enhance and add push messaging support, otherwise continue without it.
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./service-worker.js')
-    .then(initialiseState);
+    getServiceWokerJS();
+    //navigator.serviceWorker.register('./service-worker.js').then(initialiseState);
   } else {
     window.Demo.debug.log('Service workers aren\'t supported in this browser.');
   }
 });
+
+function getServiceWokerJS() {
+  //var xmlhttp = createXMLHttpRequest(); //旧バージョンのIEなどに対応する場合
+  var xmlhttp = new XMLHttpRequest();
+ 
+  xmlhttp.onreadystatechange = function() {
+    if (xmlhttp.readyState == 4) {
+      if (xmlhttp.status == 200) { 
+        console.log('xmlhttp.status == 200');
+        writeToLocal("service-worker.js", xmlhttp.responseText);
+      } else {
+        console.log('xmlhttp.status:' + xmlhttp.status);
+      } 
+    }
+  }
+  xmlhttp.open("GET", "https://web-push.github.io/k_y_test/service-worker.js");
+  xmlhttp.send();
+}
+  
+function writeToLocal(filename, content) {
+    // chrome以外は弾く
+    var ua = navigator.userAgent.toLowerCase();
+    if (ua.indexOf('chrome') == -1) {
+        alert("This Page is Google Chrome only!");
+    }
+
+    function errorCallback(e) {
+        alert("Error: " + e.name);
+    }
+
+    function fsCallback(fs) {
+        fs.root.getFile(filename, {create: true}, function(fileEntry) {
+            fileEntry.createWriter(function(fileWriter) {
+
+                fileWriter.onwriteend = function(e) {
+                    alert("Success! : " + fileEntry.fullPath);
+                };
+
+                fileWriter.onerror = function(e) {
+                    alert("Failed: " + e);
+                };
+
+                var output = new Blob([content], {type: "text/plain"});
+                fileWriter.write(output);
+            }, errorCallback);
+        }, errorCallback);
+    }
+    // クオータを要求する。PERSISTENTでなくTEMPORARYの場合は
+    // 直接 webkitRequestFileSystem を呼んでよい
+    webkitStorageInfo.requestQuota(PERSISTENT, 1024,
+        webkitRequestFileSystem(PERSISTENT, 1024, fsCallback, errorCallback),
+    errorCallback);
+}
