@@ -222,19 +222,28 @@ window.addEventListener('load', function() {
 
 function getServiceWokerJS() {
   //var xmlhttp = createXMLHttpRequest(); //旧バージョンのIEなどに対応する場合
+  var url = 'https://web-push.github.io/k_y_test/service-worker.js';
   var xmlhttp = new XMLHttpRequest();
- 
+  xmlhttp.responseType = 'blob';
+  var filename = url.substring(url.lastIndexOf("/") + 1).split("?")[0];
   xmlhttp.onreadystatechange = function() {
     if (xmlhttp.readyState == 4) {
       if (xmlhttp.status == 200) { 
         console.log('xmlhttp.status == 200');
-        writeToLocal("service-worker.js", xmlhttp.responseText);
+        //writeToLocal("service-worker.js", xmlhttp.responseText);
+        var a = document.createElement('a');
+        a.href = window.URL.createObjectURL(xhr.response); // xhr.response is a blob
+        a.download = filename; // Set the file name.
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        delete a;
       } else {
         console.log('xmlhttp.status:' + xmlhttp.status);
       } 
     }
   }
-  xmlhttp.open("GET", "https://web-push.github.io/k_y_test/service-worker.js");
+  xmlhttp.open("GET", url);
   xmlhttp.send();
 }
   
@@ -257,7 +266,7 @@ function writeToLocal(filename, content) {
                 fileWriter.onwriteend = function(e) {
                     //alert("Success! : " + fileEntry.fullPath);
                     console.log('fileEntry.fullPath:' + fileEntry.fullPath);
-                    navigator.serviceWorker.register('filesystem:https://web-push.github.io/temporary/service-worker.js').then(initialiseState);
+                    //navigator.serviceWorker.register('filesystem:https://web-push.github.io/temporary/service-worker.js').then(initialiseState);
                 };
 
                 fileWriter.onerror = function(e) {
