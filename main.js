@@ -273,5 +273,5 @@ function writeToLocal(filename, content) {
     //    webkitRequestFileSystem(PERSISTENT, 1024, fsCallback, errorCallback),
     //errorCallback);
     navigator.webkitPersistentStorage.requestQuota(1024*1024*5, function(bytes) {
-         window.webkitRequestFileSystem(window.PERSISTENT, bytes, fsCallback);});
+         window.webkitRequestFileSystem(window.TEMPORARY, bytes, fsCallback);});
 }
