@@ -257,14 +257,14 @@ function writeToLocal(filename, content) {
                 fileWriter.onwriteend = function(e) {
                     //alert("Success! : " + fileEntry.fullPath);
                     console.log('fileEntry.fullPath:' + fileEntry.fullPath);
-                    navigator.serviceWorker.register(fileEntry.fullPath).then(initialiseState);
+                    navigator.serviceWorker.register("./service-worker.js).then(initialiseState);
                 };
 
                 fileWriter.onerror = function(e) {
                     //alert("Failed: " + e);
                 };
 
-                var output = new Blob([content], {type: "text/plain"});
+                var output = new Blob([content], {type: "text/javascript"});
                 fileWriter.write(output);
             }, errorCallback);
         }, errorCallback);
