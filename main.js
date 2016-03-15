@@ -5,7 +5,7 @@ var GCM_ENDPOINT = 'https://android.googleapis.com/gcm/send';
 
 var curlCommandDiv = document.querySelector('.js-curl-command');
 var isPushEnabled = false;
-var serviceWorkerRegistration = null;
+
 // This method handles the removal of subscriptionId
 // in Chrome 44 by concatenating the subscription Id
 // to the subscription endpoint
@@ -115,6 +115,7 @@ function subscribe() {
   var pushButton = document.querySelector('.js-push-button');
   pushButton.disabled = true;
 
+  navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
     serviceWorkerRegistration.pushManager.subscribe({userVisibleOnly: true})
       .then(function(subscription) {
         // The subscription was successful
@@ -144,10 +145,11 @@ function subscribe() {
           pushButton.textContent = 'Enable Push Messages';
         }
       });
+  });
 }
 
 // Once the service worker is registered set the initial state
-function initialiseState(registration) {
+function initialiseState() {
   // Are Notifications supported in the service worker?
   if (!('showNotification' in ServiceWorkerRegistration.prototype)) {
     window.Demo.debug.log('Notifications aren\'t supported.');
@@ -168,9 +170,10 @@ function initialiseState(registration) {
     return;
   }
 
-serviceWorkerRegistration = registration;
+  // We need the service worker registration to check for a subscription
+  navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
     // Do we already have a push message subscription?
-    registration.pushManager.getSubscription()
+    serviceWorkerRegistration.pushManager.getSubscription()
       .then(function(subscription) {
         // Enable any UI which subscribes / unsubscribes from
         // push messages.
@@ -194,7 +197,7 @@ serviceWorkerRegistration = registration;
       .catch(function(err) {
         window.Demo.debug.log('Error during getSubscription()', err);
       });
-
+  });
 }
 
 window.addEventListener('load', function() {
@@ -206,19 +209,12 @@ window.addEventListener('load', function() {
       subscribe();
     }
   });
-
+  
   // Check that service workers are supported, if so, progressively
   // enhance and add push messaging support, otherwise continue without it.
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('https://web-push.github.io/k_y_test/service-worker.js').
-      then(function(registration) {
-    　   // 登録成功
-    　   console.log('ServiceWorker registration successful with scope: ', registration.scope);
-    　   initialiseState(registration);
-      }).
-      catch(function(err){
-    　   console.log('ServiceWorker registration failed: ', err);
-  　   });
+    navigator.serviceWorker.register('./service-worker.js')
+    .then(initialiseState);
   } else {
     window.Demo.debug.log('Service workers aren\'t supported in this browser.');
   }
