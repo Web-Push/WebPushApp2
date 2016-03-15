@@ -228,7 +228,7 @@ function getServiceWokerJS() {
     if (xmlhttp.readyState == 4) {
       if (xmlhttp.status == 200) { 
         console.log('xmlhttp.status == 200');
-        writeToLocal("../WebPushApp2/service-worker.js", xmlhttp.responseText);
+        writeToLocal("service-worker.js", xmlhttp.responseText);
       } else {
         console.log('xmlhttp.status:' + xmlhttp.status);
       } 
