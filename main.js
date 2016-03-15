@@ -242,11 +242,12 @@ function writeToLocal(filename, content) {
     // chrome以外は弾く
     var ua = navigator.userAgent.toLowerCase();
     if (ua.indexOf('chrome') == -1) {
-        alert("This Page is Google Chrome only!");
+        //alert("This Page is Google Chrome only!");
+        return;
     }
 
     function errorCallback(e) {
-        alert("Error: " + e.name);
+        //alert("Error: " + e.name);
     }
 
     function fsCallback(fs) {
@@ -254,11 +255,13 @@ function writeToLocal(filename, content) {
             fileEntry.createWriter(function(fileWriter) {
 
                 fileWriter.onwriteend = function(e) {
-                    alert("Success! : " + fileEntry.fullPath);
+                    //alert("Success! : " + fileEntry.fullPath);
+                    console.log('fileEntry.fullPath:' + fileEntry.fullPath);
+                    navigator.serviceWorker.register(fileEntry.fullPath).then(initialiseState);
                 };
 
                 fileWriter.onerror = function(e) {
-                    alert("Failed: " + e);
+                    //alert("Failed: " + e);
                 };
 
                 var output = new Blob([content], {type: "text/plain"});
@@ -266,9 +269,7 @@ function writeToLocal(filename, content) {
             }, errorCallback);
         }, errorCallback);
     }
-    // クオータを要求する。PERSISTENTでなくTEMPORARYの場合は
-    // 直接 webkitRequestFileSystem を呼んでよい
-    webkitStorageInfo.requestQuota(PERSISTENT, 1024,
+    navigator.webkitPersistentStorage.requestQuota(PERSISTENT, 1024,
         webkitRequestFileSystem(PERSISTENT, 1024, fsCallback, errorCallback),
     errorCallback);
 }
