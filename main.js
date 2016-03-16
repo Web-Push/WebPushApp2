@@ -115,8 +115,8 @@ function subscribe() {
   var pushButton = document.querySelector('.js-push-button');
   pushButton.disabled = true;
 
-  navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
-    serviceWorkerRegistration.pushManager.subscribe({userVisibleOnly: true})
+  //navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
+    reg.pushManager.subscribe({userVisibleOnly: true})
       .then(function(subscription) {
         // The subscription was successful
         isPushEnabled = true;
@@ -145,7 +145,7 @@ function subscribe() {
           pushButton.textContent = 'Enable Push Messages';
         }
       });
-  });
+  //});
 }
 
 // Once the service worker is registered set the initial state
