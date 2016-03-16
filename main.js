@@ -5,7 +5,7 @@ var GCM_ENDPOINT = 'https://android.googleapis.com/gcm/send';
 
 var curlCommandDiv = document.querySelector('.js-curl-command');
 var isPushEnabled = false;
-
+var reg = null;
 // This method handles the removal of subscriptionId
 // in Chrome 44 by concatenating the subscription Id
 // to the subscription endpoint
@@ -149,12 +149,13 @@ function subscribe() {
 }
 
 // Once the service worker is registered set the initial state
-function initialiseState() {
+function initialiseState(registration) {
   // Are Notifications supported in the service worker?
   if (!('showNotification' in ServiceWorkerRegistration.prototype)) {
     window.Demo.debug.log('Notifications aren\'t supported.');
     return;
   }
+  reg = registration;
 
   // Check the current Notification permission.
   // If its denied, it's a permanent block until the
@@ -171,9 +172,9 @@ function initialiseState() {
   }
 
   // We need the service worker registration to check for a subscription
-  navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
+  //navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
     // Do we already have a push message subscription?
-    serviceWorkerRegistration.pushManager.getSubscription()
+    reg.pushManager.getSubscription()
       .then(function(subscription) {
         // Enable any UI which subscribes / unsubscribes from
         // push messages.
@@ -197,7 +198,7 @@ function initialiseState() {
       .catch(function(err) {
         window.Demo.debug.log('Error during getSubscription()', err);
       });
-  });
+  //});
 }
 
 window.addEventListener('load', function() {
