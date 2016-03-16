@@ -155,7 +155,6 @@ function initialiseState(registration) {
     window.Demo.debug.log('Notifications aren\'t supported.');
     return;
   }
-  reg = registration;
 
   // Check the current Notification permission.
   // If its denied, it's a permanent block until the
