@@ -15,8 +15,8 @@ self.addEventListener('install', function(event) {
                mode: 'cors',
                cache: 'default' };
     //fetch('https://web-push.github.io/postmessageTest/service-worker.js').then(function(response){
-    fetch('https://html5experts.jp/wp-content/uploads/2014/05/20140523_sw.001.png',
-    ).then(function(response){
+    fetch('https://html5experts.jp/wp-content/uploads/2014/05/20140523_sw.001.png', myInit).
+    then(function(response){
       if (response.status !== 200) {
         console.log('Looks like there was a problem. Status Code: ' + response.status);
       }
