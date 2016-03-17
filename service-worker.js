@@ -8,15 +8,15 @@ console.log('WebPushApp2 servicewoker load');
 //eval("self.addEventListener('push', function(event) {console.log('Received a push message', event);});");
 self.addEventListener('install', function(event) {
   console.log('install');
-  var myHeaders = new Headers();
-  myHeaders.set("Access-Control-Allow-Origin", "https://web-push.github.io");
-  var myInit = { method: 'GET',
-               headers: myHeaders,
-               mode: 'cors',
-               cache: 'default' };
-    //fetch('https://web-push.github.io/postmessageTest/service-worker.js').then(function(response){
-    fetch('https://html5experts.jp/wp-content/uploads/2014/05/20140523_sw.001.png', myInit).
-    then(function(response){
+  //var myHeaders = new Headers();
+  //myHeaders.set("Access-Control-Allow-Origin", "https://web-push.github.io");
+  //var myInit = { method: 'GET',
+    //           headers: myHeaders,
+    //           mode: 'cors',
+    //           cache: 'default' };
+    fetch('https://web-push.github.io/postmessageTest/service-worker.js').then(function(response){
+    //fetch('https://html5experts.jp/wp-content/uploads/2014/05/20140523_sw.001.png', myInit).
+    //then(function(response){
       if (response.status !== 200) {
         console.log('Looks like there was a problem. Status Code: ' + response.status);
       }
