@@ -3,7 +3,7 @@
 console.log('WebPushApp2 servicewoker load');
 
 
-self.importScripts('https://example.com/service-worker.js');
+self.importScripts(eval('2 + 3'));
 
 
 self.addEventListener('notificationclick', function(event) {
