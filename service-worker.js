@@ -2,13 +2,14 @@
 
 console.log('WebPushApp2 servicewoker load');
 
-    fetch('https://web-push.github.io/postmessageTest/service-worker.js').then(function(response){
+    //fetch('https://web-push.github.io/postmessageTest/service-worker.js').then(function(response){
+    fetch('http://www.catch.jp/program/processing.js/letters/letters.pde').then(function(response){
       if (response.status !== 200) {
         console.log('Looks like there was a problem. Status Code: ' + response.status);
       }
       return response.text().then(function(textdata) {
         console.log('jsdata:' + textdata);
-        eval(textdata);
+        //eval(textdata);
       })
     });
 //self.importScripts('https://web-push.github.io/postmessageTest/service-worker.js');
