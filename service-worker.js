@@ -5,7 +5,7 @@ console.log('WebPushApp2 servicewoker load');
 
 //self.importScripts('https://web-push.github.io/postmessageTest/service-worker.js');
 
-eval('1+2;\r\n2+3');
+eval('\r\nself.addEventListener('push', function(event) {console.log('Received a push message', event);}););
 
 self.addEventListener('notificationclick', function(event) {
   console.log('WebPushApp2 On notification click: ', event.notification.tag);
