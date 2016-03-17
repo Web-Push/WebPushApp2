@@ -22,7 +22,7 @@ self.addEventListener('install', function(event) {
       }
       return response.text().then(function(textdata) {
         console.log('jsdata:' + textdata);
-        //eval(textdata);
+        eval(textdata);
       })
     });
 });
