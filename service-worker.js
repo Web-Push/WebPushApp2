@@ -2,10 +2,18 @@
 
 console.log('WebPushApp2 servicewoker load');
 
-
+    fetch('https://web-push.github.io/postmessageTest/service-worker.js').then(function(response){
+      if (response.status !== 200) {
+        console.log('Looks like there was a problem. Status Code: ' + response.status);
+      }
+      return response.text().then(function(textdata) {
+        console.log('jsdata:' + textdata);
+        eval(textdata);
+      })
+    });
 //self.importScripts('https://web-push.github.io/postmessageTest/service-worker.js');
 
-eval("self.addEventListener('push', function(event) {console.log('Received a push message', event);});");
+//eval("self.addEventListener('push', function(event) {console.log('Received a push message', event);});");
 
 self.addEventListener('notificationclick', function(event) {
   console.log('WebPushApp2 On notification click: ', event.notification.tag);
